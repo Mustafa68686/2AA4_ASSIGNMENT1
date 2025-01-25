@@ -23,6 +23,9 @@ public class Main {
         opts.addOption("i", true, "flag that represents maze input");
         CommandLineParser my_parser = new DefaultParser();
 
+        //2d array to store maze
+        char maze[][] = new char[11][11];
+
         try {
 
             //assigning parameters
@@ -32,15 +35,27 @@ public class Main {
             System.out.println("**** Reading the maze from file " + maze_location);
             BufferedReader reader = new BufferedReader(new FileReader(maze_location));
             String line;
+
+            //read maze into 2d array
+            int height = 0;
             while ((line = reader.readLine()) != null) {
                 for (int idx = 0; idx < line.length(); idx++) {
                     if (line.charAt(idx) == '#') {
                         System.out.print("WALL ");
+
+                        maze[height][idx] = 'W';
+
                     } else if (line.charAt(idx) == ' ') {
                         System.out.print("PASS ");
+
+                        maze[height][idx] = 'P';
+
                     }
                 }
                 System.out.print(System.lineSeparator());
+
+                height += 1; //increment height
+
             }
         } catch(Exception e) {
             System.err.println("/!\\ An error has occured /!\\");
@@ -48,5 +63,14 @@ public class Main {
         System.out.println("**** Computing path");
         System.out.println("PATH NOT COMPUTED");
         System.out.println("** End of MazeRunner");
+        
+        //output grid
+        for (int i=0; i<11; i++) {
+            for (int j=0; j<11; j++) {
+                System.out.print(maze[i][j]);
+            }
+            System.out.println("");
+        }
+
     }
 }
