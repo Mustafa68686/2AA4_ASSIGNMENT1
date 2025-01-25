@@ -64,13 +64,20 @@ public class Main {
         System.out.println("PATH NOT COMPUTED");
         System.out.println("** End of MazeRunner");
         
-        //output grid
-        for (int i=0; i<11; i++) {
-            for (int j=0; j<11; j++) {
-                System.out.print(maze[i][j]);
-            }
-            System.out.println("");
-        }
-
+        int start = find_enterence(maze);
+        System.out.println("Start at "+start);
     }
+
+    //find start height
+    public static int find_enterence(char[][] maze) {
+        int start_height = 0;
+        for (int i=0; i<maze.length; i++) {
+            if (maze[i][0] == 'P') {
+                start_height = i;
+            }
+        }
+        return start_height;
+    }
+
+
 }
