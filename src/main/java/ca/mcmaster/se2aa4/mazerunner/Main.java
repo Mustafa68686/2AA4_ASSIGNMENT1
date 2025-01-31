@@ -18,9 +18,10 @@ public class Main {
     public static void main(String[] args) {
         logger.info("** Starting Maze Runner");
 
-        //parsing -i flag
+        //parsing -i and -p flag
         Options opts = new Options();
         opts.addOption("i", true, "flag that represents maze input");
+        opts.addOption("p", true, "flag that represents path input");
         CommandLineParser my_parser = new DefaultParser();
 
         //2d array to store maze
@@ -64,12 +65,46 @@ public class Main {
         logger.info("PATH NOT COMPUTED");
         logger.info("** End of MazeRunner");
         
-        int start = find_enterence(maze);
-        //System.out.println("Start at "+start);
+        //find_path(maze);
+        //check_path(maze, "FLFRFFLFFFFR");
+
+        System.out.println("new");
+        MazeUtility mu = new MazeUtility(maze);
+        mu.main();
+        System.out.println("");
     }
 
+}
+
+
+
+
+
+
+
+
+
+
+class MazeUtility {
+    private char maze[][];
+    public MazeUtility(char[][] array) {
+        maze = array;
+    }
+    public void main() {
+        //starting postition, one step in
+        int pos[] = {find_enterence(), 1};
+        Compass compass = new Compass('E');
+        String path = "F";
+        //compute path
+        path = rightHandMethod(pos, path, compass);
+        System.out.println(path);
+        //verify path
+        String manualPath = "FLFRFFLFFFFFFRFFFFRFFLFFRFFLF";
+        String status = verifyPath(manualPath);
+        System.out.println(status);
+    }
     //find start height
-    public static int find_enterence(char[][] maze) {
+    private int find_enterence() {
         int start_height = 0;
         for (int i=0; i<maze.length; i++) {
             if (maze[i][0] == 'P') {
@@ -78,13 +113,132 @@ public class Main {
         }
         return start_height;
     }
-
-    /*
-    public static String find_path(char[][] maze) {
+    //use the right hand method
+    private String rightHandMethod(int[] pos, String path, Compass compass) {
+        while (true) {
+            //if you reach the end, break
+            if (pos[1] == maze.length-1) {
+                break;
+            }
+            char facing = compass.facing;
+            //check right hand and front
+            char right_hand = 'X'; char front = 'X'; int pos_x = pos[1]; int pos_y = pos[0];
+            switch (facing) {
+                case 'N':
+                    right_hand = maze[pos_y][pos_x-1];
+                    front = maze[pos_y-1][pos_x];
+                    break;
+                case 'E':
+                    right_hand = maze[pos_y-1][pos_x];
+                    front = maze[pos_y][pos_x+1];
+                    break;
+                case 'S':
+                    right_hand = maze[pos_y][pos_x+1];
+                    front = maze[pos_y+1][pos_x];
+                    break;
+                case 'W':
+                    right_hand = maze[pos_y+1][pos_x];
+                    front = maze[pos_y][pos_x-1];
+                    break;
+            }
+            //advance
+            if (right_hand == 'W' && front == 'P') {
+                compass.forward(pos);
+                path = path + "F";
+            //turn right
+            } else if (right_hand == 'W' && front == 'W') {
+                compass.turnRight();
+                path = path + "R";
+            //turn left
+            } else if (right_hand == 'P') {
+                compass.turnLeft();
+                compass.forward(pos);
+                path = path + "L";
+                path = path + "F";
+            } else {}
+        }
+        return path;
     }
-    */
+    public String verifyPath(String path) {
 
+        char[][] nummaze = maze;              /*********************************/
 
+        //get starting position
+        int pos[] = {find_enterence(), 0};
+        Compass compass = new Compass('E');
+        //loop though instructions
+        for (int i = 0; i<path.length(); i++) {
 
+            if (!(path.charAt(i) == ' ')) {
 
+            char symbol = path.charAt(i);
+            pos = move(pos, compass, symbol);
+
+            if (maze[pos[0]][pos[1]] == 'W') {
+                System.out.println("wall");
+                return "FAIL!";
+            }
+            }
+        }
+        if (pos[1] == maze.length-1) {
+            return "SUCCESS!";
+        } else {
+            return "FAIL!";
+        }
+    }
+    public int[] move(int[] pos, Compass compass, char move_direction) {
+        switch (move_direction) {
+            case 'F':
+                pos = compass.forward(pos); break;
+            case 'R':
+                compass.turnRight(); break;
+            case 'L':
+                compass.turnLeft();
+        }
+        return pos;
+    }
+}
+
+class Compass {
+    public char facing = 'N';
+    public Compass(char direction) {
+        facing = direction;
+    }
+    public void turnLeft() {
+        switch (facing) {
+            case 'N':
+                facing = 'W'; break;
+            case 'E':
+                facing = 'N'; break;
+            case 'S':
+                facing = 'E'; break;
+            case 'W':
+                facing = 'S'; break;
+        }
+    }
+    public void turnRight() {
+        switch (facing) {
+            case 'N':
+                facing = 'E'; break;
+            case 'E':
+                facing = 'S'; break;
+            case 'S':
+                facing = 'W'; break;
+            case 'W':
+                facing = 'N'; break;
+        }
+    }
+    public int[] forward(int[] pos) {
+        switch (facing) {
+            case 'N':
+                pos[0] -= 1; break;
+            case 'E':
+                pos[1] += 1; break;
+            case 'S':
+                pos[0] += 1; break;
+            case 'W':
+                pos[1] -= 1; break;
+        }
+        return pos;
+    }
 }
