@@ -25,7 +25,7 @@ public class Main {
         CommandLineParser my_parser = new DefaultParser();
 
         //2d array to store maze
-        char maze[][] = new char[11][11];
+        char maze[][] = new char[0][0];
 
         try {
 
@@ -40,22 +40,26 @@ public class Main {
             //read maze into 2d array
             int height = 0;
             while ((line = reader.readLine()) != null) {
+
+                char inputline[] = new char[0];
+
                 for (int idx = 0; idx < line.length(); idx++) {
                     if (line.charAt(idx) == '#') {
                         System.out.print("WALL ");
 
-                        maze[height][idx] = 'W';
+                        inputline = MyUtitily.add1D(inputline, 'W');
 
                     } else if (line.charAt(idx) == ' ') {
                         System.out.print("PASS ");
 
-                        maze[height][idx] = 'P';
+                        inputline = MyUtitily.add1D(inputline, 'P');
 
                     }
                 }
                 System.out.print(System.lineSeparator());
 
                 height += 1; //increment height
+                maze = MyUtitily.addRow(maze, inputline);
 
             }
         } catch(Exception e) {
@@ -67,6 +71,10 @@ public class Main {
         
         //find_path(maze);
         //check_path(maze, "FLFRFFLFFFFR");
+        System.out.println("");
+        MyUtitily.outputCharArray(maze);
+        System.out.println(maze.length);
+        System.out.println(maze[0].length);
 
         System.out.println("new");
         MazeUtility mu = new MazeUtility(maze);
@@ -117,7 +125,7 @@ class MazeUtility {
     private String rightHandMethod(int[] pos, String path, Compass compass) {
         while (true) {
             //if you reach the end, break
-            if (pos[1] == maze.length-1) {
+            if (pos[1] == maze[0].length-1) {
                 break;
             }
             char facing = compass.facing;
@@ -161,8 +169,6 @@ class MazeUtility {
     }
     public String verifyPath(String path) {
 
-        char[][] nummaze = maze;              /*********************************/
-
         //get starting position
         int pos[] = {find_enterence(), 0};
         Compass compass = new Compass('E');
@@ -180,7 +186,7 @@ class MazeUtility {
             }
             }
         }
-        if (pos[1] == maze.length-1) {
+        if (pos[1] == maze[0].length-1) {
             return "SUCCESS!";
         } else {
             return "FAIL!";
@@ -240,5 +246,37 @@ class Compass {
                 pos[1] -= 1; break;
         }
         return pos;
+    }
+}
+
+class MyUtitily {
+    public static char[] add1D(char[] old_array, char new_item) {
+        char[] new_array = new char[old_array.length+1];
+        for (int i=0; i<old_array.length; i++) {
+            new_array[i] = old_array[i];
+        }
+        new_array[old_array.length] = new_item;
+        return new_array;
+    }
+    public static char[][] addRow(char[][] old_array, char[] new_item) {
+        char[][] new_array = new char[old_array.length+1][new_item.length];
+        for (int i=0; i<old_array.length; i++) {
+            new_array[i] = old_array[i];
+        }
+        new_array[old_array.length] = new_item;
+        return new_array;
+    }
+    public static void outputCharArray(char[][] array) {
+        for (int i=0; i<array.length; i++) {
+            for (int j=0; j<array[0].length; j++) {
+                if (array[i][j] == 'P') {
+                    System.out.print(" ");
+                } else {
+                    System.out.print(array[i][j]);
+                }
+                System.out.print(" ");
+            }
+            System.out.println("");
+        }
     }
 }
