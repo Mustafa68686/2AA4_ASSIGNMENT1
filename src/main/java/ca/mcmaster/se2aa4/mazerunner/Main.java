@@ -99,13 +99,22 @@ class MazeUtility {
         maze = array;
     }
     public void main() {
+
         //starting postition, one step in
         int pos[] = {find_enterence(), 1};
         Compass compass = new Compass('E');
         String path = "F";
+
         //compute path
         path = rightHandMethod(pos, path, compass);
         System.out.println(path);
+        MyUtitily.outputPathNeat(path);
+
+        //factorize path
+        String factorized_path = factorize(path);
+        System.out.println(factorized_path);
+        MyUtitily.outputPathNeat(factorized_path);
+
         //verify path
         String manualPath = "FLFRFFLFFFFFFRFFFFRFFLFFRFFLF";
         String status = verifyPath(manualPath);
@@ -123,7 +132,33 @@ class MazeUtility {
     }
     //use the right hand method
     private String rightHandMethod(int[] pos, String path, Compass compass) {
+
+        /*
+        char[][] amaze = new char[maze.length][maze[0].length];
+        for (int i=0; i<maze.length; i++) {
+            for (int j=0; j<maze[0].length; j++) {
+                amaze[i][j] = maze[i][j];
+            }
+        }
+        int i = -1;
+        */
+
         while (true) {
+
+            /*
+            i += 1;
+            if (i == 100) {
+                System.out.println("eb");
+                break;
+            }
+
+            amaze[pos[0]][pos[1]] = (char)(65+i);
+            
+            MyUtitily.outputCharArray(amaze);
+            System.out.println("");
+            */
+
+
             //if you reach the end, break
             if (pos[1] == maze[0].length-1) {
                 break;
@@ -133,19 +168,19 @@ class MazeUtility {
             char right_hand = 'X'; char front = 'X'; int pos_x = pos[1]; int pos_y = pos[0];
             switch (facing) {
                 case 'N':
-                    right_hand = maze[pos_y][pos_x-1];
+                    right_hand = maze[pos_y][pos_x+1];
                     front = maze[pos_y-1][pos_x];
                     break;
                 case 'E':
-                    right_hand = maze[pos_y-1][pos_x];
+                    right_hand = maze[pos_y+1][pos_x];
                     front = maze[pos_y][pos_x+1];
                     break;
                 case 'S':
-                    right_hand = maze[pos_y][pos_x+1];
+                    right_hand = maze[pos_y][pos_x-1];
                     front = maze[pos_y+1][pos_x];
                     break;
                 case 'W':
-                    right_hand = maze[pos_y+1][pos_x];
+                    right_hand = maze[pos_y-1][pos_x];
                     front = maze[pos_y][pos_x-1];
                     break;
             }
@@ -153,37 +188,66 @@ class MazeUtility {
             if (right_hand == 'W' && front == 'P') {
                 compass.forward(pos);
                 path = path + "F";
-            //turn right
-            } else if (right_hand == 'W' && front == 'W') {
-                compass.turnRight();
-                path = path + "R";
             //turn left
+            } else if (right_hand == 'W' && front == 'W') {
+                //compass.turnRight(); path = path + "R";
+                compass.turnLeft(); path = path + "L";
+            //turn right
             } else if (right_hand == 'P') {
-                compass.turnLeft();
-                compass.forward(pos);
-                path = path + "L";
-                path = path + "F";
+                //compass.turnLeft(); path = path + "L";
+                compass.turnRight(); path = path + "R";
+                compass.forward(pos); path = path + "F";
             } else {}
         }
         return path;
     }
+
+    public String factorize(String old) {
+        int len = old.length();
+        String factorized = "";
+        int idx = 0;
+        while (idx < len) {
+            int count = 1;
+            int count_idx = idx;
+            while (true) {
+                count_idx += 1;
+                if (count_idx == len) {
+                    break;
+                } else if (old.charAt(count_idx) == old.charAt(idx)) {
+                    count += 1;
+                } else {
+                    idx = count_idx-1; break;
+                }
+            }
+            if (count > 1) {
+                factorized = factorized + String.valueOf(count);
+            }
+            factorized = factorized + old.charAt(idx);
+            idx += 1;
+        }
+        return factorized;
+    }
+
     public String verifyPath(String path) {
 
         //get starting position
         int pos[] = {find_enterence(), 0};
         Compass compass = new Compass('E');
+
         //loop though instructions
         for (int i = 0; i<path.length(); i++) {
 
+            //skip empty spaces
             if (!(path.charAt(i) == ' ')) {
 
-            char symbol = path.charAt(i);
-            pos = move(pos, compass, symbol);
+                char symbol = path.charAt(i);
+                pos = move(pos, compass, symbol);
 
-            if (maze[pos[0]][pos[1]] == 'W') {
-                System.out.println("wall");
-                return "FAIL!";
-            }
+                //if you run into wall, failure
+                if (maze[pos[0]][pos[1]] == 'W') {
+                    System.out.println("wall");
+                    return "FAIL!";
+                }
             }
         }
         if (pos[1] == maze[0].length-1) {
@@ -278,5 +342,19 @@ class MyUtitily {
             }
             System.out.println("");
         }
+    }
+    public static void outputPathNeat(String path) {
+        for (int i=0; i<path.length(); i++) {
+            System.out.print(path.charAt(i));
+            if (i+1 < path.length()) {
+                if ((path.charAt(i+1) != path.charAt(i)) && !(path.charAt(i) > 49 && path.charAt(i) < 58)) {
+                    System.out.print(" ");
+                }
+                if (path.charAt(i+1) > 49 && path.charAt(i+1) < 58) {
+                    System.out.print(" ");
+                }
+            }
+        }
+        System.out.println("");
     }
 }
