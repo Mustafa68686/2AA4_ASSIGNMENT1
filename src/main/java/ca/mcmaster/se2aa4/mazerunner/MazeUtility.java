@@ -25,6 +25,10 @@ class MazeUtility {
 
     //verify path
     public void main(String path) {
+        path = defactorize(path);
+
+        System.out.println(path);
+
         String status = verifyPath(path);
         System.out.println(status);
     }
@@ -97,7 +101,7 @@ class MazeUtility {
         //while you are not at the end of the old string
         while (idx < len) {
 
-            //count how many letters same in a row
+            //count how many letters are the same ahead, skip to the last index
             int count = 1;
             int count_idx = idx;
             while (true) {
@@ -111,7 +115,7 @@ class MazeUtility {
                 }
             }
 
-            
+            //add that number infront
             if (count > 1) {
                 factorized = factorized + String.valueOf(count);
             }
@@ -119,6 +123,24 @@ class MazeUtility {
             idx += 1;
         }
         return factorized;
+    }
+
+    public String defactorize(String old) {
+        String basic = "";
+        int idx = 0; int len = old.length();
+        while (idx < len) {
+            if (old.charAt(idx) > 49 && old.charAt(idx) < 58) {
+                int num = old.charAt(idx) - 48;
+                for (int i=0; i<num; i++) {
+                    basic = basic + old.charAt(idx+1);
+                }
+                idx += 2;
+            } else {
+                basic = basic + old.charAt(idx);
+                idx += 1;
+            }
+        }
+        return basic;
     }
 
     //method that verifies path
