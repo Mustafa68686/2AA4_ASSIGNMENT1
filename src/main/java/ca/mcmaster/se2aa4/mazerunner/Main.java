@@ -46,24 +46,22 @@ public class Main {
                 
                 for (int idx = 0; idx < line.length(); idx++) {
                     if (line.charAt(idx) == '#') {
-                        //System.out.print("WALL ");                      **************************************
 
                         storage.addItem('W');
 
                     } else if (line.charAt(idx) == ' ') {
-                        //System.out.print("PASS ");                      **************************************
 
                         storage.addItem('P');
 
 
                     }
                 }
-                //System.out.print(System.lineSeparator());                      **************************************
+
                 storage.addRow();
 
             }
         } catch(Exception e) {
-            logger.error("/!\\ An error has occured /!\\");
+            //logger.error("/!\\ An error has occured /!\\");
             return;                      
         }
 

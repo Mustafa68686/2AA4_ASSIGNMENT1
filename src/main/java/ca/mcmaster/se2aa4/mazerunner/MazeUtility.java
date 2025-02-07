@@ -18,8 +18,8 @@ class MazeUtility {
 
         //factorize path
         String factorized_path = factorize(path);
-        System.out.println(factorized_path);
-        //MyUtitily.outputPathNeat(factorized_path);
+        //System.out.println(factorized_path);
+        MyUtitily.outputPathNeat(factorized_path);
     }
 
     //verify path
@@ -94,6 +94,7 @@ class MazeUtility {
         return factorized;
     }
 
+    //function to decode given path into readable form
     public String defactorize(String old) {
         String basic = "";
         int idx = 0; int len = old.length();
