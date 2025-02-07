@@ -1,22 +1,6 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 class MyUtitily {
-    public static char[] add1D(char[] old_array, char new_item) {
-        char[] new_array = new char[old_array.length+1];
-        for (int i=0; i<old_array.length; i++) {
-            new_array[i] = old_array[i];
-        }
-        new_array[old_array.length] = new_item;
-        return new_array;
-    }
-    public static char[][] addRow(char[][] old_array, char[] new_item) {
-        char[][] new_array = new char[old_array.length+1][new_item.length];
-        for (int i=0; i<old_array.length; i++) {
-            new_array[i] = old_array[i];
-        }
-        new_array[old_array.length] = new_item;
-        return new_array;
-    }
     public static void outputCharArray(char[][] array) {
         for (int i=0; i<array.length; i++) {
             for (int j=0; j<array[0].length; j++) {

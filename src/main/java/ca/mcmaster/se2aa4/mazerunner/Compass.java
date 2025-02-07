@@ -1,9 +1,12 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 class Compass {
-    public char facing = 'N';
+    private char facing = 'N';
     public Compass(char direction) {
         facing = direction;
+    }
+    public char getFacing() {
+        return facing;
     }
     public void turnLeft() {
         switch (facing) {
