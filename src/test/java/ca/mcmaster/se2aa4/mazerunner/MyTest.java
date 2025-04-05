@@ -16,7 +16,7 @@ public class MyTest {
     @Test
     //testing Storage by making maze from scratch
     public void test2() {
-        Storage storage = new Storage();
+        ArrayStorage storage = new ArrayStorage();
         storage.addItem('W'); storage.addItem('W'); storage.addItem('W'); storage.addItem('W'); storage.addRow();
         storage.addItem('P'); storage.addItem('P'); storage.addItem('W'); storage.addItem('W'); storage.addRow();
         storage.addItem('W'); storage.addItem('P'); storage.addItem('P'); storage.addItem('P'); storage.addRow();
@@ -29,7 +29,7 @@ public class MyTest {
     @Test
     //testing find height function
     public void test3() {
-        Storage storage = new Storage();
+        ArrayStorage storage = new ArrayStorage();
         storage.addItem('W'); storage.addItem('W'); storage.addItem('W'); storage.addItem('W'); storage.addRow();
         storage.addItem('P'); storage.addItem('P'); storage.addItem('W'); storage.addItem('W'); storage.addRow();
         storage.addItem('W'); storage.addItem('P'); storage.addItem('P'); storage.addItem('P'); storage.addRow();

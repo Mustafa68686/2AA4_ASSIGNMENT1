@@ -1,6 +1,6 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-class Storage {
+class ArrayStorage extends Maze {
     public char maze[][] = new char[0][0];
     private char row[] = new char[0];
 

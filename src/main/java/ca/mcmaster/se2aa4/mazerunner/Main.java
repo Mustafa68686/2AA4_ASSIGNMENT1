@@ -25,7 +25,8 @@ public class Main {
         CommandLineParser my_parser = new DefaultParser();
 
         //maze storage
-        Storage storage = new Storage();
+        MazeFactory factory = new MazeFactory();
+        Maze storage = factory.getMaze(MazeType.CharArray);
 
         //variable to store given path
         String given_path = null;

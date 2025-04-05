@@ -1,9 +1,9 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 class MazeUtility {
-    public Storage mazeStorage;
+    public Maze mazeStorage;
 
-    public MazeUtility(Storage storage) {
+    public MazeUtility(Maze storage) {
         mazeStorage = storage;
     }
     public void main() {
