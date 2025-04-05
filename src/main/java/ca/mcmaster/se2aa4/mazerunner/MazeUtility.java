@@ -31,7 +31,7 @@ class MazeUtility {
     }
 
     //find start height
-   private String rightHandMethod(int[] pos, String path, Compass compass) {
+   public String rightHandMethod(int[] pos, String path, Compass compass) {
         while (true) {
 
             //if you reach the end, break

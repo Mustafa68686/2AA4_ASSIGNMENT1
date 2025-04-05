@@ -15,7 +15,7 @@ public class Main {
 
     private static final Logger logger = LogManager.getLogger();
 
-    public static void main(String[] args) {
+    public static MazeUtility main(String[] args) {
         //logger.info("** Starting Maze Runner");
 
         //parsing -i and -p flag
@@ -62,7 +62,7 @@ public class Main {
             }
         } catch(Exception e) {
             //logger.error("/!\\ An error has occured /!\\");
-            return;                      
+            return null;                      
         }
 
         MazeUtility mu = new MazeUtility(storage);
@@ -73,6 +73,7 @@ public class Main {
             //logger.info("**** Verifying path");  
             mu.main(given_path);
         }                   
-        //logger.info("** End of MazeRunner");                      
+        //logger.info("** End of MazeRunner");  
+        return mu;                    
     }
 }
