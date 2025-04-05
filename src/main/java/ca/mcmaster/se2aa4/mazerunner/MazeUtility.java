@@ -10,7 +10,7 @@ class MazeUtility {
 
         //starting postition, one step in
         int pos[] = {mazeStorage.find_enterence(), 1};
-        Compass compass = new Compass('E');
+        Compass compass = Compass.getInstance();
         String path = "F";
 
         //compute path
@@ -118,7 +118,7 @@ class MazeUtility {
 
         //get starting position
         int pos[] = {mazeStorage.find_enterence(), 0};
-        Compass compass = new Compass('E');
+        Compass compass = Compass.getInstance();
 
         //loop though instructions
         for (int i = 0; i<path.length(); i++) {

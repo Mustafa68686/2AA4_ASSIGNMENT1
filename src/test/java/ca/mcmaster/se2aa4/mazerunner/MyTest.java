@@ -57,7 +57,7 @@ public class MyTest {
     @Test
     //testing Compass class forward
     public void test6() {
-        Compass compass = new Compass('E');
+        Compass compass = Compass.getInstance();
         int[] old_pos = {5, 5};
         int[] new_pos = compass.forward(old_pos);
         assertEquals(new_pos[1], 6);
@@ -66,7 +66,7 @@ public class MyTest {
     @Test
     //testing Compass class turn right
     public void test7() {
-        Compass compass = new Compass('E');
+        Compass compass = Compass.getInstance();
         compass.turnRight();
         assertEquals(compass.getFacing(), 'S');
     }
@@ -74,29 +74,27 @@ public class MyTest {
     @Test
     //testing Compass class turn left
     public void test8() {
-        Compass compass = new Compass('E');
-        compass.turnLeft();
+        Compass compass = Compass.getInstance();
+        compass.turnLeft(); compass.turnLeft(); //facing south from previous test
         assertEquals(compass.getFacing(), 'N');
     }
 
-    
     @Test
     //testing move function
     public void test9() {
         MazeUtility mu = Main.main(new String[] {"-i", "./examples/straight.maz.txt"});
-        Compass compass = new Compass('E');
+        Compass compass = Compass.getInstance();
         int[] old_pos = {5, 5};
         int[] new_pos = mu.move(old_pos, compass, 'F');
         assertEquals(new_pos, old_pos);
     }
-
     
     @Test
     //testing right hand method from the middle
     public void test10() {
         MazeUtility mu = Main.main(new String[] {"-i", "./examples/straight.maz.txt"});
         int[] pos = {2, 2};
-        Compass compass = new Compass('E');
+        Compass compass = Compass.getInstance();
         String path = mu.rightHandMethod(pos, "", compass);
         assertEquals("FF", path);
     }

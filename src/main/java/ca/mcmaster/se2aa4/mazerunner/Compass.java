@@ -1,10 +1,17 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 class Compass {
-    private char facing = 'N';
-    public Compass(char direction) {
-        facing = direction;
+    private char facing = 'E';
+
+    //applying Singleton pattern
+    private Compass() {}
+
+    private static Compass instance = new Compass();
+
+    public static Compass getInstance() {
+        return instance;
     }
+
     public char getFacing() {
         return facing;
     }
